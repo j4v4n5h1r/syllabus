@@ -1,0 +1,223 @@
+<?php
+
+/*
+* Implementation of hook_menu().
+*/
+
+function syllabus_main_menu() {
+	$items['syllabus_main'] = array(
+		//'path' => 'admin/settings/main/syllabus_main', //need to change in the future
+		'title' => t("Syllabus"),
+		'description' => t("Main Syllabus System for Vistula University"),
+		//'callback' => 'drupal_get_form',
+		'page callback' => 'syllabus_page',
+		//'callback arguments' => 'syllabus_main_settings',
+		//'access' => user_access('access administration pages')
+		'access arguments' => array('access content')
+		);
+
+	// administrator
+	$items['syllabus_main/add_department'] = array(
+		'title' => t("Add Department"),
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('new_department_page'),
+		'access callback' => 'syllabus_main_user_has_role',
+		'access arguments' =>  array('administrator'),
+		'file' => 'add_department.administrator.inc'
+		);
+	$items['syllabus_main/departments'] = array(
+		'title' => t("Departments"),
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('departments_page'),
+		'access callback' => 'syllabus_main_user_has_role',
+		'access arguments' =>  array('administrator'),
+		'file' => 'departments.administrator.inc'
+		);
+	$items['syllabus_main/users'] = array(
+		'title' => t("Users"),
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('users_page'),
+		'access callback' => 'syllabus_main_user_has_role',
+		'access arguments' =>  array('administrator'),
+		'file' => 'users.administrator.inc'
+		);
+	$items['syllabus_main/courses'] = array(
+		'title' => t("Courses"),
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('courses_page'),
+		'access callback' => 'syllabus_main_user_has_role',
+		'access arguments' =>  array('administrator'),
+		'file' => 'courses.administrator.inc'
+		);
+	$items['syllabus_main/massive'] = array(
+		'title' => t("Massive Data Migration"),
+		'page callback' => 'syllabus_page',
+		'access callback' => 'syllabus_main_user_has_role',
+		'access arguments' =>  array('administrator')
+		);
+	$items['syllabus_main/massive/new_user'] = array(
+		'title' => t("Massive User Create"),
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('mass_new_user_page'),
+		'access callback' => 'syllabus_main_user_has_role',
+		'access arguments' =>  array('administrator'),
+		'file' => 'new_user.massive.administrator.inc'
+		);
+	$items['syllabus_main/massive/new_course'] = array(
+		'title' => t("Massive Course Create"),
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('mass_new_course_page'),
+		'access callback' => 'syllabus_main_user_has_role',
+		'access arguments' =>  array('administrator'),
+		'file' => 'new_course.massive.administrator.inc'
+		);
+	$items['syllabus_main/department_update'] = array(
+		'title' => t("Department"),
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('department_update'),
+		'access callback' => 'syllabus_main_user_has_role',
+		'access arguments' =>  array('administrator'),
+		'file' => 'departments.administrator.inc'
+		);
+	// Head of Program
+	$items['syllabus_main/husers'] = array(
+		'title' => t("Users"),
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('hod_users_page'),
+		'access callback' => 'syllabus_main_user_has_role',
+		'access arguments' =>  array('Head of Program'),
+		'file' => 'users.hod.inc'
+		);
+	$items['syllabus_main/hcourses'] = array(
+		'title' => t("Courses"),
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('hod_courses_page'),
+		'access callback' => 'syllabus_main_user_has_role',
+		'access arguments' =>  array('Head of Program'),
+		'file' => 'courses.hod.inc'
+		);
+	$items['syllabus_main/hod_new_user'] = array(
+		'title' => t("Create User"),
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('new_user_page'),
+		'access callback' => 'syllabus_main_user_has_role',
+		'access arguments' =>  array('Head of Program'),
+		'file' => 'new_user.hod.inc'
+		);
+	$items['syllabus_main/hod_new_course'] = array(
+		'title' => t("Create Course"),
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('new_course_page'),
+		'access callback' => 'syllabus_main_user_has_role',
+		'access arguments' =>  array('Head of Program'),
+		'file' => 'new_course.hod.inc'
+		);
+	$items['syllabus_main/hod_migrate'] = array(
+		'title' => t("Migrate"),
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('migrate_page'),
+		'access callback' => 'syllabus_main_user_has_role',
+		'access arguments' =>  array('Head of Program'),
+		'file' => 'migrate.hod.inc'
+		);
+	$items['syllabus_main/my_courses'] = array(
+		'title' => t("My Courses"),
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('my_courses'),
+		'access callback' => 'syllabus_main_user_has_role',
+		'access arguments' =>  array('Head of Program'),
+		'file' => 'my_courses.hodteacher.inc'
+		);
+	$items['syllabus_main/add_objective'] = array(
+		'title' => t("Add Objectives"),
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('add_objective'),
+		'access callback' => 'syllabus_main_user_has_role',
+		'access arguments' =>  array('Head of Program'),
+		'file' => 'add_objective.hodteacher.inc'
+		);
+	// Hod, Admin
+	$items['syllabus_main/course_open'] = array(
+		'title' => t("Course"),
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('course_open'),
+		'access callback' => 'syllabus_main_user_has_role',
+		'access arguments' =>  array('administrator', 'Head of Program'),
+		'file' => 'course_open.hodadmin.inc'
+		);
+	$items['syllabus_main/course_update'] = array(
+		'title' => t("Course"),
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('course_update'),
+		'access callback' => 'syllabus_main_user_has_role',
+		'access arguments' =>  array('administrator', 'Head of Program'),
+		'file' => 'course_update.hodadmin.inc'
+		);
+	$items['syllabus_main/user_update'] = array(
+		'title' => t("User"),
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('user_update'),
+		'access callback' => 'syllabus_main_user_has_role',
+		'access arguments' =>  array('administrator', 'Head of Program'),
+		'file' => 'user_update.hodadmin.inc'
+		);
+	// Staff
+	$items['syllabus_main/staff_staff'] = array(
+		'title' => t("My Tasks"),
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('staff_page'),
+		'access callback' => 'syllabus_main_user_has_role',
+		'access arguments' =>  array('Teacher'),
+		'file' => 'staff.staff.inc'
+		);
+	$items['syllabus_main/staff_course'] = array(
+		'title' => t("Course"),
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('staff_course'),
+		'access callback' => 'syllabus_main_user_has_role',
+		'access arguments' =>  array('Teacher'),
+		'file' => 'course.staff.inc'
+		);
+	//public
+	$items['syllabus_main/public_public'] = array(
+		'title' => t("All Syllabuses"),
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('public_public'),
+		'access callback' => 'syllabus_main_user_has_role',
+		'access arguments' =>  array('authenticated user'),
+		'file' => 'public.public.inc'
+		);
+	$items['syllabus_main/public_course'] = array(
+		'title' => t("Course"),
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('public_course'),
+		'access callback' => 'syllabus_main_user_has_role',
+		'access arguments' =>  array('authenticated user'),
+		'file' => 'course.public.inc'
+		);
+
+	return $items;
+}
+
+// roles
+
+function syllabus_main_user_has_role() { 
+	global $user;
+	$roles = func_get_args();
+	foreach ($roles as $role) {
+		if (in_array($role, $user->roles)) {
+			return TRUE;
+		}
+	}
+	return FALSE; 
+}
+
+function syllabus_page() {
+	return "Vistula Syllabus System";
+}
+
+//status:
+// 0 - in progress
+// 1 - pending
+// 2 - declined
+// 3 - public

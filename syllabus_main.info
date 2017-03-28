@@ -1,0 +1,6 @@
+; $Id$
+name = Syllabus Main
+description = Main module for the syllabus system.
+package = Syllabus
+core = 7.x
+files[] = syllabus_main.module
